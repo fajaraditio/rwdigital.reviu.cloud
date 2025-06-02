@@ -67,12 +67,12 @@
             <!-- Login Button -->
             <a href="{{ route('filament.panel.pages.dashboard') }}"
                 class="inline-block px-6 py-3 text-sm font-medium rounded-xl bg-cyan-500 hover:bg-cyan-600 transition">
-                Masuk ke Aplikasi
+                Daftar Sekarang
             </a>
             <!-- Register Button -->
-            <a href="{{ route('filament.panel.pages.dashboard') }} fade-in"
-                class="inline-block px-6 py-3 text-sm font-medium rounded-xl bg-cyan-500 hover:bg-cyan-600 transition">
-                Daftar Sekarang
+            <a href="{{ route('filament.panel.pages.dashboard') }}"
+                class="bg-white text-cyan-600 inline-block px-6 py-3 text-sm font-medium rounded-xl transition">
+                Masuk ke Aplikasi
             </a>
         </div>
     </div>
