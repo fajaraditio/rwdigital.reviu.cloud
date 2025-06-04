@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Login;
+use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -18,17 +20,21 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class PanelPanelProvider extends PanelProvider
+class RWPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
-            ->id('panel')
-            ->path('panel')
-            ->login()
+            ->id('rw')
+            ->path('rw')
+            ->login(Login::class)
+            ->font('Quicksand', provider: GoogleFontProvider::class)
+            ->brandLogo(asset('images/logo-rw-digital.png'))
+            ->brandLogoHeight('120px')
+            ->darkMode(true, isForced: true)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#0b9de0'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

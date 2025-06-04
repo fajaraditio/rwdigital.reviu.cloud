@@ -65,12 +65,12 @@
 
         <div class="flex items-center justify-center gap-2 fade-in">
             <!-- Login Button -->
-            <a href="{{ route('filament.panel.pages.dashboard') }}"
+            <a href="{{ route('filament.rw.pages.dashboard') }}"
                 class="inline-block px-6 py-3 text-sm font-medium rounded-xl bg-cyan-500 hover:bg-cyan-600 transition">
                 Daftar Sekarang
             </a>
             <!-- Register Button -->
-            <a href="{{ route('filament.panel.pages.dashboard') }}"
+            <a href="{{ route('filament.rw.pages.dashboard') }}"
                 class="bg-white text-cyan-600 inline-block px-6 py-3 text-sm font-medium rounded-xl transition">
                 Masuk ke Aplikasi
             </a>
