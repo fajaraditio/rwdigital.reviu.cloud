@@ -11,7 +11,12 @@ class Login extends AuthLogin
 {
     public function getHeading(): string|Htmlable
     {
-        return 'SSO - RW Digital';
+        return 'Single Sign-On';
+    }
+
+    public function getSubheading(): string|Htmlable|null
+    {
+        return 'Silakan masuk dengan akun dan kata sandi Anda';
     }
 
     public function getMaxWidth(): MaxWidth|string|null

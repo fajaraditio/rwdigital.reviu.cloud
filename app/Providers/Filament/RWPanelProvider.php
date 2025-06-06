@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
+use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -31,7 +32,7 @@ class RWPanelProvider extends PanelProvider
             ->login(Login::class)
             ->font('Quicksand', provider: GoogleFontProvider::class)
             ->brandLogo(asset('images/logo-rw-digital.png'))
-            ->brandLogoHeight('140px')
+            ->brandLogoHeight('80px')
             ->colors([
                 'primary' => Color::hex('#ff513b'),
             ])
@@ -43,7 +44,6 @@ class RWPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -58,6 +58,8 @@ class RWPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])->plugins([
+                PhosphorIcons::make(),
             ]);
     }
 }
