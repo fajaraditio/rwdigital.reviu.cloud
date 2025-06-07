@@ -5,12 +5,15 @@ namespace App\Filament\Resources;
 use App\Constants\UserConstant;
 use App\Filament\Resources\WargaResource\Pages;
 use App\Filament\Resources\WargaResource\RelationManagers;
+use App\Models\RTArea;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -40,6 +43,11 @@ class WargaResource extends Resource
         return $table
             ->modifyQueryUsing(fn($query) => $query->where('role', str(UserConstant::ROLE_WARGA)->lower()))
             ->columns([
+                TextColumn::make('nik')
+                    ->label('NIK')
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('name')
                     ->label('Nama Warga')
                     ->sortable()
@@ -47,10 +55,19 @@ class WargaResource extends Resource
 
                 TextColumn::make('email')
                     ->label('Email Warga'),
+
+                TextColumn::make('phone_number')
+                    ->label('No. Telp Warga'),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('rt_area')
+                    ->label('Pilih RT')
+                    ->relationship('rt_area', 'name')
+                    ->native(false)
+                    ->searchable()
+                    ->preload()
+
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
