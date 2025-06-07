@@ -36,7 +36,7 @@ class RWPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo-rw-digital.png'))
             ->brandLogoHeight('50px')
             ->colors([
-                'primary' => Color::hex('#12a5cc'),
+                'primary' => Color::hex('#004A7C'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

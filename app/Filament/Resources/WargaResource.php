@@ -12,7 +12,7 @@ class WargaResource extends Resource
 
     protected static ?string $navigationIcon = 'phosphor-address-book-tabs';
 
-    protected static ?string $navigationGroup = 'Pengelolaan Warga';
+    protected static ?string $navigationGroup = 'Rukun Tetangga';
 
     protected static ?string $navigationLabel = 'Data Warga';
 

@@ -46,8 +46,8 @@ class ListWarga extends ListRecords
     {
         return $table
             ->modifyQueryUsing(fn($query) => $query->whereIn('role', [
-                str(UserConstant::ROLE_WARGA)->lower(),
-                str(UserConstant::ROLE_KETUA_RT)->lower()->snake()
+                UserConstant::ROLE_WARGA_SLUG,
+                UserConstant::ROLE_KETUA_RT_SLUG
             ]))
             ->columns([
                 TextColumn::make('nik')
@@ -67,12 +67,12 @@ class ListWarga extends ListRecords
                     ->label('Ketua RT / Warga')
                     ->badge()
                     ->formatStateUsing(function ($state) {
-                        if ($state === str(UserConstant::ROLE_WARGA)->lower()->value()) return UserConstant::ROLE_WARGA;
-                        if ($state === str(UserConstant::ROLE_KETUA_RT)->lower()->snake()->value()) return UserConstant::ROLE_KETUA_RT;
+                        if ($state === UserConstant::ROLE_WARGA_SLUG) return UserConstant::ROLE_WARGA;
+                        if ($state === UserConstant::ROLE_KETUA_RT_SLUG) return UserConstant::ROLE_KETUA_RT;
                     })
                     ->color(function ($state) {
-                        if ($state === str(UserConstant::ROLE_WARGA)->lower()->value()) return 'info';
-                        if ($state === str(UserConstant::ROLE_KETUA_RT)->lower()->snake()->value()) return 'success';
+                        if ($state === UserConstant::ROLE_WARGA_SLUG) return 'info';
+                        if ($state === UserConstant::ROLE_KETUA_RT_SLUG) return 'success';
                     }),
 
                 TextColumn::make('email')
@@ -85,6 +85,16 @@ class ListWarga extends ListRecords
                 SelectFilter::make('rt_area')
                     ->label('Pilih RT')
                     ->relationship('rt_area', 'name')
+                    ->native(false)
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('role')
+                    ->label('Ketua RT / Warga')
+                    ->options([
+                        UserConstant::ROLE_WARGA_SLUG       => UserConstant::ROLE_WARGA,
+                        UserConstant::ROLE_KETUA_RT_SLUG    => UserConstant::ROLE_KETUA_RT,
+                    ])
                     ->native(false)
                     ->searchable()
                     ->preload(),
