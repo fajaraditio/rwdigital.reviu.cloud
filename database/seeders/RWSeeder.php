@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\RTArea;
 use App\Models\RWSetting;
+use Carbon\Carbon;
 
 class RWSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class RWSeeder extends Seeder
             'role'          => 'ketua_rw',
             'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
             'phone_number'  => '08' . rand(1111111111, 9999999999),
+            'registered_at' => Carbon::now(),
         ]);
 
         // Create RWSetting
@@ -47,6 +49,7 @@ class RWSeeder extends Seeder
                 'role'          => 'ketua_rt',
                 'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
                 'phone_number'  => '08' . rand(1111111111, 9999999999),
+                'registered_at' => Carbon::now(),
             ]);
 
             // Create RTArea
@@ -72,6 +75,7 @@ class RWSeeder extends Seeder
                     'password'      => Hash::make('password'),
                     'role'          => 'warga',
                     'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
+                    'registered_at' => Carbon::now(),
                     'phone_number'  => '08' . rand(1111111111, 9999999999),
                 ]);
             }

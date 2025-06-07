@@ -30,6 +30,7 @@ class RWPanelProvider extends PanelProvider
             ->id('rw')
             ->path('rw')
             ->login(Login::class)
+            ->registration()
             ->font('Quicksand', provider: GoogleFontProvider::class)
             ->brandLogo(asset('images/logo-rw-digital.png'))
             ->brandLogoHeight('50px')

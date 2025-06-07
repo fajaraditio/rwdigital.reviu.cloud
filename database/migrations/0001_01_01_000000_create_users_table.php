@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['ketua_rw', 'ketua_rt', 'warga'])->default('warga');
             $table->string('signature')->nullable();
+            $table->timestamp('registered_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
