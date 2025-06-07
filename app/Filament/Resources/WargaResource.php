@@ -65,7 +65,7 @@ class WargaResource extends Resource
                     ->relationship('rt_area', 'name')
                     ->native(false)
                     ->searchable()
-                    ->preload()
+                    ->preload(),
 
             ], layout: FiltersLayout::AboveContent)
             ->actions([

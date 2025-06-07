@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Login;
+use App\Filament\Pages\Registration;
 use Filafly\Icons\Phosphor\PhosphorIcons;
 use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -30,7 +31,7 @@ class RWPanelProvider extends PanelProvider
             ->id('rw')
             ->path('rw')
             ->login(Login::class)
-            ->registration()
+            ->registration(Registration::class)
             ->font('Quicksand', provider: GoogleFontProvider::class)
             ->brandLogo(asset('images/logo-rw-digital.png'))
             ->brandLogoHeight('50px')
