@@ -15,6 +15,6 @@ class Login extends AuthLogin
 
     public function getMaxWidth(): MaxWidth|string|null
     {
-        return MaxWidth::Medium;
+        return MaxWidth::Small;
     }
 }
