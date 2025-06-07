@@ -13,7 +13,7 @@ class UserDetailConstant
     ];
 
     public const GENDER_LABELS = [
-        UserConstant::GENDER_MALE   => "Laki-laki",
-        UserConstant::GENDER_FEMALE => "Perempuan",
+        "Male"      => "Laki-laki",
+        "Female"    => "Perempuan",
     ];
 }

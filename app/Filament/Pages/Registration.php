@@ -2,7 +2,9 @@
 
 namespace App\Filament\Pages;
 
+use App\Constants\UserDetailConstant;
 use App\Models\RTArea;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Hidden;
@@ -12,6 +14,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Pages\Auth\Register;
 use Filament\Pages\Page;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 
@@ -57,6 +60,27 @@ class Registration extends Register
         ];
     }
 
+    protected function getNameFormComponent(): Component
+    {
+        return TextInput::make('name')
+            ->label(__('filament-panels::pages/auth/register.form.name.label'))
+            ->required()
+            ->maxLength(255)
+            ->placeholder('Contoh: Ainun')
+            ->autofocus();
+    }
+
+    protected function getEmailFormComponent(): Component
+    {
+        return TextInput::make('email')
+            ->label(__('filament-panels::pages/auth/register.form.email.label'))
+            ->email()
+            ->required()
+            ->maxLength(255)
+            ->placeholder('Contoh: ainun@rwdigital.test')
+            ->unique($this->getUserModel());
+    }
+
     protected function getRoleComponent(): Component
     {
         return Hidden::make('role')->default('warga');
@@ -64,7 +88,7 @@ class Registration extends Register
 
     protected function getRTAreaFormComponent(): Component
     {
-        return Select::make('rt_area_id')
+        return Select::make('detail.rt_area_id')
             ->label('Rukun Tetangga')
             ->options(RTArea::all()->pluck('name', 'id'))
             ->native(false)
@@ -81,6 +105,7 @@ class Registration extends Register
             ->required()
             ->mask('9999 9999 9999 9999')
             ->mutateDehydratedStateUsing(fn($state) => str($state)->replace(' ', ''))
+            ->placeholder('Contoh: 3172 0010 0011 0012')
             ->autofocus();
     }
 
@@ -90,6 +115,30 @@ class Registration extends Register
             ->label('Nomor Telepon')
             ->required()
             ->mask('9999 9999 9999 99')
+            ->placeholder('Contoh: 0831 3123 4321 2314')
             ->mutateDehydratedStateUsing(fn($state) => str($state)->replace(' ', ''));
+    }
+
+    protected function getGenderFormComponent(): Component
+    {
+        return Select::make('gender')
+            ->label('Jenis Kelamin')
+            ->options(UserDetailConstant::GENDER_LABELS)
+            ->required();
+    }
+
+    protected function handleRegistration(array $data): Model
+    {
+        $detail = $data['detail'];
+
+        dd($detail);
+
+        unset($data['detail']);
+
+        $user = User::create($data);
+
+        $user->detail()->create($detail);
+
+        return $user;
     }
 }
