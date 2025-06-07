@@ -13,13 +13,8 @@ class Login extends AuthLogin
         return 'Single Sign-On';
     }
 
-    public function getSubheading(): string|Htmlable|null
-    {
-        return 'Silakan masuk dengan akun dan kata sandi Anda';
-    }
-
     public function getMaxWidth(): MaxWidth|string|null
     {
-        return MaxWidth::Small;
+        return MaxWidth::Medium;
     }
 }

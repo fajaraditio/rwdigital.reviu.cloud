@@ -2,21 +2,24 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\RTArea;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard;
 use Filament\Pages\Auth\Register;
 use Filament\Pages\Page;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 
 class Registration extends Register
 {
     public function getMaxWidth(): MaxWidth|string|null
     {
-        return MaxWidth::Medium;
+        return MaxWidth::ScreenMedium;
     }
 
     protected function getForms(): array
@@ -25,12 +28,29 @@ class Registration extends Register
             'form' => $this->form(
                 $this->makeForm()
                     ->schema([
-                        $this->getNikFormComponent(),
-                        $this->getNameFormComponent(),
-                        $this->getEmailFormComponent(),
-                        $this->getPhoneNumberComponent(),
-                        $this->getPasswordFormComponent(),
-                        $this->getPasswordConfirmationFormComponent(),
+                        Wizard::make([
+                            Wizard\Step::make('Daftar NIK dan RT')
+                                ->schema([
+                                    $this->getRTAreaFormComponent(),
+                                    $this->getNikFormComponent(),
+                                ]),
+                            Wizard\Step::make('Data Pribadi')
+                                ->schema([
+                                    $this->getNameFormComponent(),
+                                    $this->getEmailFormComponent(),
+                                    $this->getPhoneNumberComponent(),
+                                ]),
+                            Wizard\Step::make('Keamanan Akun')
+                                ->schema([
+                                    $this->getPasswordFormComponent(),
+                                    $this->getPasswordConfirmationFormComponent(),
+                                ])
+                        ])
+                            ->submitAction(new HtmlString(Blade::render(<<<BLADE
+                                 <x-filament::button type="submit" size="sm">
+                                        {{ __('filament-panels::pages/auth/register.form.actions.register.label') }}
+                                    </x-filament::button>
+                                BLADE))),
                     ])
                     ->statePath('data'),
             ),
@@ -46,10 +66,12 @@ class Registration extends Register
     {
         return Select::make('rt_area_id')
             ->label('Rukun Tetangga')
-            ->required()
-            ->mask('9999 9999 9999 9999')
-            ->mutateDehydratedStateUsing(fn($state) => (int) $state)
-            ->autofocus();
+            ->options(RTArea::all()->pluck('name', 'id'))
+            ->native(false)
+            ->searchable()
+            ->getSearchResultsUsing(fn(string $search): array => RTArea::where('name', 'like', "%{$search}%")->limit(10)->pluck('name', 'id')->toArray())
+            ->getOptionLabelsUsing(fn(array $values): array => RTArea::whereIn('id', $values)->pluck('name', 'id')->toArray())
+            ->required();
     }
 
     protected function getNikFormComponent(): Component
@@ -58,7 +80,7 @@ class Registration extends Register
             ->label('Nomor Induk Kependudukan (NIK)')
             ->required()
             ->mask('9999 9999 9999 9999')
-            ->mutateDehydratedStateUsing(fn($state) => (int) $state)
+            ->mutateDehydratedStateUsing(fn($state) => str($state)->replace(' ', ''))
             ->autofocus();
     }
 
@@ -68,16 +90,6 @@ class Registration extends Register
             ->label('Nomor Telepon')
             ->required()
             ->mask('9999 9999 9999 99')
-            ->mutateDehydratedStateUsing(fn($state) => (int) $state)
-            ->autofocus();
-    }
-
-    public function getRegisterFormAction(): Action
-    {
-        return Action::make('register')
-            ->requiresConfirmation()
-            ->modalDescription(new HtmlString('Apakah data yang Anda input sudah benar?'))
-            ->label(__('filament-panels::pages/auth/register.form.actions.register.label'))
-            ->action('register');
+            ->mutateDehydratedStateUsing(fn($state) => str($state)->replace(' ', ''));
     }
 }
