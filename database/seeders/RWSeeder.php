@@ -14,23 +14,25 @@ class RWSeeder extends Seeder
     {
         // Create RW user
         User::create([
-            'name' => 'Ketua RW 09',
-            'email' => 'rw09@rwdigital.test',
-            'password' => Hash::make('password'),
-            'role' => 'rw',
+            'name'          => 'Ketua RW 09',
+            'email'         => 'rw09@rwdigital.test',
+            'password'      => Hash::make('password'),
+            'role'          => 'rw',
+            'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
+            'phone_number'  => '08' . rand(1111111111, 9999999999),
         ]);
 
         // Create RWSetting
         RWSetting::create([
-            'name' => 'RW 09',
-            'address' => 'Jl. RW 09, Srengseng Sawah',
-            'sub_district' => 'Srengseng Sawah',
-            'district' => 'Jagakarsa',
-            'city' => 'Jakarta Selatan',
-            'province' => 'DKI Jakarta',
-            'latitude' => -6.32100000,
-            'longitude' => 106.83300000,
-            'google_maps' => 'https://maps.google.com/?q=-6.34567890,106.82345678',
+            'name'          => 'RW 09',
+            'address'       => 'Jl. RW 09, Srengseng Sawah',
+            'sub_district'  => 'Srengseng Sawah',
+            'district'      => 'Jagakarsa',
+            'city'          => 'Jakarta Selatan',
+            'province'      => 'DKI Jakarta',
+            'latitude'      => -6.32100000,
+            'longitude'     => 106.83300000,
+            'google_maps'   => 'https://maps.google.com/?q=-6.34567890,106.82345678',
         ]);
 
         // Create RTs and assign Ketua RT + 10 Warga
@@ -39,10 +41,12 @@ class RWSeeder extends Seeder
 
             // Create RT User
             $rtUser = User::firstOrCreate([
-                'name'      => "Ketua RT $rtNumber",
-                'email'     => "rt$rtNumber@rwdigital.test",
-                'password'  => Hash::make('password'),
-                'role'      => 'rt',
+                'name'          => "Ketua RT $rtNumber",
+                'email'         => "rt$rtNumber@rwdigital.test",
+                'password'      => Hash::make('password'),
+                'role'          => 'rt',
+                'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
+                'phone_number'  => '08' . rand(1111111111, 9999999999),
             ]);
 
             // Create RTArea
@@ -58,10 +62,12 @@ class RWSeeder extends Seeder
             // Create 10 warga users for each RT
             for ($j = 1; $j <= 10; $j++) {
                 User::firstOrCreate([
-                    'name'      => "Warga $j RT $rtNumber",
-                    'email'     => "warga$j.rt$rtNumber@rwdigital.test",
-                    'password'  => Hash::make('password'),
-                    'role'      => 'warga',
+                    'name'          => "Warga $j RT $rtNumber",
+                    'email'         => "warga$j.rt$rtNumber@rwdigital.test",
+                    'password'      => Hash::make('password'),
+                    'role'          => 'warga',
+                    'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
+                    'phone_number'  => '08' . rand(1111111111, 9999999999),
                 ]);
             }
         }

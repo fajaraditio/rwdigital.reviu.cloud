@@ -32,9 +32,9 @@ class RWPanelProvider extends PanelProvider
             ->login(Login::class)
             ->font('Quicksand', provider: GoogleFontProvider::class)
             ->brandLogo(asset('images/logo-rw-digital.png'))
-            ->brandLogoHeight('80px')
+            ->brandLogoHeight('50px')
             ->colors([
-                'primary' => Color::hex('#ff513b'),
+                'primary' => Color::hex('#12a5cc'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -56,6 +56,7 @@ class RWPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->sidebarCollapsibleOnDesktop()
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([

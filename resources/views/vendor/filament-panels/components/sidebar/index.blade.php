@@ -41,7 +41,7 @@
     >
     <div class="overflow-x-clip">
         <header
-            class="fi-sidebar-header flex h-16 items-center bg-slate-100 px-6 ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10 lg:shadow-sm">
+            class="fi-sidebar-header flex h-16 items-center bg-white shadow-md px-6 ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10 lg:shadow-sm">
             <div
                 @if (filament()->isSidebarCollapsibleOnDesktop()) x-show="$store.sidebar.isOpen"
                     x-transition:enter="lg:transition lg:delay-100"
@@ -74,7 +74,7 @@
         </header>
     </div>
 
-    <nav class="fi-sidebar-nav flex-grow bg-slate-100 flex flex-col gap-y-7 overflow-y-auto overflow-x-hidden px-6 py-8"
+    <nav class="fi-sidebar-nav flex-grow bg-white flex flex-col gap-y-7 overflow-y-auto overflow-x-hidden px-6 py-8"
         style="scrollbar-gutter: stable">
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::SIDEBAR_NAV_START) }}
 

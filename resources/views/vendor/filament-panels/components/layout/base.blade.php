@@ -112,7 +112,7 @@
                 ->class([
                     'fi-body',
                     'fi-panel-' . filament()->getId(),
-                    'min-h-screen bg-white font-normal text-gray-950 antialiased dark:bg-gray-900 dark:text-white',
+                    'min-h-screen bg-slate-100 font-normal text-gray-950 antialiased dark:bg-gray-900 dark:text-white',
                 ]) }}
     >
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::BODY_START, scopes: $livewire->getRenderHookScopes()) }}
