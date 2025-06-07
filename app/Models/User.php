@@ -32,8 +32,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function rt_area()
+    public function detail()
     {
-        return $this->belongsTo(RTArea::class);
+        return $this->hasOne(UserDetail::class);
     }
 }

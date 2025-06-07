@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('rt_areas', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'ketua_rt_id');
             $table->string('name');
             $table->text('address');
             $table->decimal('latitude', 11, 8)->nullable();

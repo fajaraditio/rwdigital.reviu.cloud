@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants\UserDetailConstant;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -13,17 +14,6 @@ class RWSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create RW user
-        User::create([
-            'name'          => 'Ketua RW 09',
-            'email'         => 'rw09@rwdigital.test',
-            'password'      => Hash::make('password'),
-            'role'          => 'ketua_rw',
-            'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
-            'phone_number'  => '08' . rand(1111111111, 9999999999),
-            'registered_at' => Carbon::now(),
-        ]);
-
         // Create RWSetting
         RWSetting::create([
             'name'          => 'RW 09',
@@ -37,13 +27,43 @@ class RWSeeder extends Seeder
             'google_maps'   => 'https://maps.google.com/?q=-6.34567890,106.82345678',
         ]);
 
+        // Create Ketua RW user
+        $rwUser = User::create([
+            'name'          => 'Andre Subianto',
+            'email'         => 'rw09@rwdigital.test',
+            'password'      => Hash::make('password'),
+            'role'          => 'ketua_rw',
+            'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
+            'phone_number'  => '08' . rand(1111111111, 9999999999),
+            'registered_at' => Carbon::now(),
+        ]);
+
+        // Update Ketua RW user detail
+        $rwUser->detail()->firstOrCreate([
+            'house_no'          => 'RW-01',
+            'gender'            => UserDetailConstant::GENDER_MALE,
+            'date_of_birth'     => '1973-01-23',
+            'place_of_birth'    => fake()->city(),
+        ]);
+
         // Create RTs and assign Ketua RT + 10 Warga
         for ($i = 1; $i <= 12; $i++) {
+            $gender = fake()->randomElement(UserDetailConstant::GENDER_ENUMS);
+
             $rtNumber = str_pad($i, 3, '0', STR_PAD_LEFT);
 
-            // Create RT User
+            // Create RTArea
+            $rtArea = RTArea::firstOrCreate([
+                'name'          => "RT $rtNumber",
+                'address'       => "Jl. RT $rtNumber, RW 09, Srengseng Sawah",
+                'latitude'      => -6.34500000 + ($i * 0.001),
+                'longitude'     => 106.82000000 + ($i * 0.001),
+                'google_maps'   => "https://maps.google.com/?q=" . (-6.34500000 + ($i * 0.001)) . "," . (106.82000000 + ($i * 0.001)),
+            ]);
+
+            // Create Ketua RT user
             $rtUser = User::firstOrCreate([
-                'name'          => "Ketua RT $rtNumber",
+                'name'          => fake()->name(str($gender)->lower()),
                 'email'         => "rt$rtNumber@rwdigital.test",
                 'password'      => Hash::make('password'),
                 'role'          => 'ketua_rt',
@@ -52,31 +72,37 @@ class RWSeeder extends Seeder
                 'registered_at' => Carbon::now(),
             ]);
 
-            // Create RTArea
-            $rtArea = RTArea::firstOrCreate([
-                'ketua_rt_id'   => $rtUser->id,
-                'name'          => "RT $rtNumber",
-                'address'       => "Jl. RT $rtNumber, RW 09, Srengseng Sawah",
-                'latitude'      => -6.34500000 + ($i * 0.001),
-                'longitude'     => 106.82000000 + ($i * 0.001),
-                'google_maps'   => "https://maps.google.com/?q=" . (-6.34500000 + ($i * 0.001)) . "," . (106.82000000 + ($i * 0.001)),
+            // Update Ketua RT user detail
+            $rtUser->detail()->firstOrCreate([
+                'rt_area_id'        => $rtArea->id,
+                'house_no'          => 'RT-' . $rtNumber,
+                'gender'            => $gender,
+                'date_of_birth'     => '1973-01-23',
+                'place_of_birth'    => fake()->city(),
             ]);
-
-            // Update Ketua RT
-
-            $rtUser->update(['rt_area_id' => $rtArea->id]);
 
             // Create 10 warga users for each RT
             for ($j = 1; $j <= 10; $j++) {
-                User::firstOrCreate([
-                    'rt_area_id'    => $rtArea->id,
-                    'name'          => "Warga $j RT $rtNumber",
+                $wargaNumber = str_pad($j, 3, '0', STR_PAD_LEFT);
+
+                $gender = fake()->randomElement(UserDetailConstant::GENDER_ENUMS);
+
+                $wargaUser = User::firstOrCreate([
+                    'name'          => fake()->name(str($gender)->lower()),
                     'email'         => "warga$j.rt$rtNumber@rwdigital.test",
                     'password'      => Hash::make('password'),
                     'role'          => 'warga',
                     'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
                     'registered_at' => Carbon::now(),
                     'phone_number'  => '08' . rand(1111111111, 9999999999),
+                ]);
+
+                $wargaUser->detail()->firstOrCreate([
+                    'rt_area_id'        => $rtArea->id,
+                    'gender'            => $gender,
+                    'house_no'          => 'W-' . $rtNumber . ' ' . $wargaNumber,
+                    'date_of_birth'     => '1973-01-23',
+                    'place_of_birth'    => fake()->city(),
                 ]);
             }
         }
