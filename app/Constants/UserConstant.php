@@ -6,15 +6,7 @@ use Illuminate\Support\Str;
 
 class UserConstant
 {
-    public const ROLE_RW    = "RW";
-    public const ROLE_RT    = "RT";
-    public const ROLE_WARGA = "Warga";
-
-    public const GENDER_MALE = "Male";
-    public const GENDER_FEMALE = "Female";
-
-    public const GENDER_LABELS = [
-        UserConstant::GENDER_MALE   => "Laki-laki",
-        UserConstant::GENDER_FEMALE => "Perempuan",
-    ];
+    public const ROLE_KETUA_RW  = "Ketua RW";
+    public const ROLE_KETUA_RT  = "Ketua RT";
+    public const ROLE_WARGA     = "Warga";
 }

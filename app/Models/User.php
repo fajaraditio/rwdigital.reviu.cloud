@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class);
     }
+
+    public function rt_area()
+    {
+        return $this->hasOneThrough(RTArea::class, UserDetail::class, 'id', 'id', null, 'rt_area_id');
+    }
 }

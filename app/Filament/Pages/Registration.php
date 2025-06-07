@@ -7,6 +7,8 @@ use App\Models\RTArea;
 use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -39,10 +41,15 @@ class Registration extends Register
                                 ]),
                             Wizard\Step::make('Data Pribadi')
                                 ->schema([
-                                    $this->getNameFormComponent(),
+                                    $this->getNameFormComponent()->columnSpanFull(),
                                     $this->getEmailFormComponent(),
                                     $this->getPhoneNumberComponent(),
-                                ]),
+                                    $this->getGenderFormComponent(),
+                                    Grid::make(),
+                                    $this->getPlaceOfBirthFormComponent(),
+                                    $this->getDateOfBirthFormComponent(),
+                                ])
+                                ->columns(2),
                             Wizard\Step::make('Keamanan Akun')
                                 ->schema([
                                     $this->getPasswordFormComponent(),
@@ -63,7 +70,7 @@ class Registration extends Register
     protected function getNameFormComponent(): Component
     {
         return TextInput::make('name')
-            ->label(__('filament-panels::pages/auth/register.form.name.label'))
+            ->label('Nama Lengkap')
             ->required()
             ->maxLength(255)
             ->placeholder('Contoh: Ainun')
@@ -73,7 +80,7 @@ class Registration extends Register
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
-            ->label(__('filament-panels::pages/auth/register.form.email.label'))
+            ->label('Alamat Email')
             ->email()
             ->required()
             ->maxLength(255)
@@ -121,17 +128,31 @@ class Registration extends Register
 
     protected function getGenderFormComponent(): Component
     {
-        return Select::make('gender')
+        return Select::make('detail.gender')
             ->label('Jenis Kelamin')
             ->options(UserDetailConstant::GENDER_LABELS)
             ->required();
     }
 
+    protected function getPlaceOfBirthFormComponent(): Component
+    {
+        return TextInput::make('detail.place_of_birth')
+            ->label('Tempat Lahir')
+            ->placeholder('Contoh: Jakarta');
+    }
+
+    protected function getDateOfBirthFormComponent(): Component
+    {
+        return DatePicker::make('detail.date_of_birth')
+            ->label('Tanggal Lahir')
+            ->displayFormat('j F Y')
+            ->placeholder('Contoh: 11 November 1990')
+            ->label('Jenis Kelamin');
+    }
+
     protected function handleRegistration(array $data): Model
     {
         $detail = $data['detail'];
-
-        dd($detail);
 
         unset($data['detail']);
 

@@ -35,7 +35,7 @@ class RWSeeder extends Seeder
             'role'          => 'ketua_rw',
             'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
             'phone_number'  => '08' . rand(1111111111, 9999999999),
-            'registered_at' => Carbon::now(),
+            'verified_at' => Carbon::now(),
         ]);
 
         // Update Ketua RW user detail
@@ -69,7 +69,7 @@ class RWSeeder extends Seeder
                 'role'          => 'ketua_rt',
                 'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
                 'phone_number'  => '08' . rand(1111111111, 9999999999),
-                'registered_at' => Carbon::now(),
+                'verified_at' => Carbon::now(),
             ]);
 
             // Update Ketua RT user detail
@@ -93,7 +93,7 @@ class RWSeeder extends Seeder
                     'password'      => Hash::make('password'),
                     'role'          => 'warga',
                     'nik'           => '3172' . str_pad((string) rand(1000000000, 9999999999), 12, '0', STR_PAD_LEFT),
-                    'registered_at' => Carbon::now(),
+                    'verified_at' => Carbon::now(),
                     'phone_number'  => '08' . rand(1111111111, 9999999999),
                 ]);
 
